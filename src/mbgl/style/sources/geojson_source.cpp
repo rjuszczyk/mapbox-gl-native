@@ -50,6 +50,9 @@ void GeoJSONSource::loadDescription(FileSource& fileSource) {
         return;
     }
 
+    // Mark this source as unloaded to prevent its now-old impl from being used.
+    loaded = false;
+
     req = fileSource.request(Resource::source(*url), [this](Response res) {
         if (res.error) {
             observer->onSourceError(
